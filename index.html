@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dateo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3e4dc;--bg2:#ecd5ca;--card:#fffaf5;--ink:#3b1420;--soft:#8a6470;--gold:#b08445;--line:#e6d0c3;--btn:#4a1626;--btnink:#fbeee4;--ok:#3f9b6b;--wait:#d9a03a;--bad:#c0414f}
+@media (prefers-color-scheme:dark){:root{--bg:#150a0e;--bg2:#241119;--card:#241119;--ink:#f6e6dc;--soft:#b99aa4;--gold:#d4ad6a;--line:#3d1f2b;--btn:#d4ad6a;--btnink:#2a1219}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(120% 70% at 50% -8%,var(--bg2),var(--bg)) fixed;color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.wrap{max-width:440px;margin:0 auto;padding:22px 18px 44px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.brand{font-family:Fraunces,serif;font-weight:600;font-size:27px;letter-spacing:.01em}
+.brand small{display:block;font:400 13px 'Hanken Grotesk';color:var(--soft);letter-spacing:.02em}
+.pill{border:1px solid var(--line);border-radius:99px;padding:7px 13px;font-weight:600;font-size:13px;display:flex;gap:8px;align-items:center;background:var(--card)}
+.pill.st{display:inline-flex;margin:2px 0 14px}
+.dot{width:9px;height:9px;border-radius:50%;background:#b9a7a0;display:inline-block}
+.dot.on{background:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:36px 24px 28px;text-align:center;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 22px 44px -22px rgba(74,22,38,.4)}
+.orn{width:30px;height:30px;color:var(--gold);display:block;margin:0 auto 16px}
+h1{font-family:Fraunces,serif;font-weight:600;font-size:29px;line-height:1.18;letter-spacing:-.01em;margin:0 0 10px}
+p{color:var(--soft);margin:0 0 18px;line-height:1.55;font-size:15.5px}
+.btn{display:block;width:100%;border:0;border-radius:99px;min-height:54px;padding:14px;font:700 16px 'Hanken Grotesk';letter-spacing:.02em;background:var(--btn);color:var(--btnink);margin-top:12px;cursor:pointer;box-shadow:0 10px 20px -10px rgba(74,22,38,.65)}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--gold);box-shadow:none}
+.btn:disabled{opacity:.4;box-shadow:none}
+.btn:focus-visible,.k:focus-visible,.act:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.dots{display:flex;gap:18px;justify-content:center;margin:20px 0 28px}
+.dots i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--gold)}
+.dots i.f{background:var(--gold)}
+.pad{display:grid;grid-template-columns:repeat(3,76px);gap:16px;justify-content:center}
+.k{width:76px;height:76px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);font:400 31px Fraunces,serif;cursor:pointer}
+.k:active{background:var(--bg2);border-color:var(--gold)}
+.k.x{border:0;font-size:22px;color:var(--soft)}
+input[type=date],input[type=time],.fld{width:100%;font:600 20px 'Hanken Grotesk';padding:15px;border-radius:16px;border:1px solid var(--line);background:var(--bg);color:var(--ink);text-align:center}
+input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 8px}
+.act{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:18px 14px;text-align:left;color:var(--ink);cursor:pointer;font-family:inherit}
+.act b{display:block;font:600 19px Fraunces,serif;margin-bottom:6px}
+.act small{display:block;color:var(--soft);font-size:13px;line-height:1.4}
+.act.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:var(--bg2)}
+.act:disabled{opacity:.85}
+.lights{display:flex;gap:14px;justify-content:center;margin:16px 0}
+.lights i{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line)}
+.lights i.g.on{background:var(--ok);border-color:var(--ok);box-shadow:0 0 14px var(--ok)}
+.lights i.y.on{background:var(--wait);border-color:var(--wait);box-shadow:0 0 14px var(--wait)}
+.lights i.r.on{background:var(--bad);border-color:var(--bad);box-shadow:0 0 14px var(--bad)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:99px;font-weight:600;max-width:90%;text-align:center;z-index:9}
+.link{background:none;border:0;color:var(--soft);font:600 14px 'Hanken Grotesk';margin-top:18px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.tk{display:flex;margin:20px 0 10px;filter:drop-shadow(0 14px 18px rgba(59,20,32,.35));text-align:left}
+.tk .m{flex:1;background:linear-gradient(140deg,#5c1b30,#34111d 75%);color:#f6e6dc;border-radius:16px 0 0 16px;padding:20px 18px;position:relative;min-height:176px;-webkit-mask:radial-gradient(circle 10px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 10px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 10px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 10px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat}
+.tk .m::after{content:"";position:absolute;inset:8px 4px 8px 12px;border:1px solid rgba(212,173,106,.5);border-radius:10px;pointer-events:none}
+.tk .t{font:600 25px/1.1 Fraunces,serif;padding-left:4px}
+.tk .t b{display:block;font:500 13px 'Hanken Grotesk';color:#d4ad6a;margin-bottom:6px}
+.tk .vip{display:inline-block;border:1px solid #d4ad6a;color:#d4ad6a;border-radius:99px;padding:5px 14px;font-weight:700;font-size:11.5px;letter-spacing:.08em;margin:14px 0 12px 4px}
+.tk .vip span{font-weight:500}
+.tk .d{font-size:13px;line-height:1.6;font-weight:500;padding-left:4px;opacity:.92}
+.tk .s{width:100px;background:#fffaf5;color:#3b1420;border-radius:0 16px 16px 0;border-left:2px dashed #dcc3b3;padding:12px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.tk .s svg{width:68px;height:68px}
+.tk .c{font:600 20px Fraunces,serif;letter-spacing:.18em;color:#4a1626}
+.tk .s small{font-weight:600;font-size:10px;color:#8a6470;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">Dateo<small>a private invitation</small></div>
+    <div class="pill"><span class="dot" id="net"></span><span id="netl">Offline</span></div>
+  </header>
+  <div id="app"></div>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAAMCNjTZ7zdmw8WvwEIzbmDJDZz9fcwvs",
+  authDomain: "dokito-a.firebaseapp.com",
+  projectId: "dokito-a",
+  storageBucket: "dokito-a.firebasestorage.app",
+  messagingSenderId: "1023884219045",
+  appId: "1:1023884219045:web:d44888e21a3ed4c4bcb34c",
+  measurementId: "G-VNWZB90C7T"
+};
+const db = getFirestore(initializeApp(firebaseConfig));
+const $ = s => document.querySelector(s), app = $('#app');
+const ACTS = {coffee:['Coffee','Slow, warm, easy to linger'],pastry:['Pastry','Something sweet to share'],photo:['Photo','Golden hour and a camera'],fuchka:['Doi fuchka','Street-side, tangy, a little messy']};
+let role = sessionStorage.getItem('role'), code = sessionStorage.getItem('code'), ref = null, unsub = null, room = null, view = 'home';
+
+const setNet=()=>{const o=navigator.onLine;$('#net').classList.toggle('on',o);$('#netl').textContent=o?'Online':'Offline'};
+addEventListener('online',setNet);addEventListener('offline',setNet);setNet();
+
+function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2800)}
+const fmtDate = d => new Date(d+'T00:00').toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'});
+const fmtTime = t => new Date('2000-01-01T'+t).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+const other = r => r==='c'?'g':'c';
+function upd(o){return updateDoc(ref,o)}
+
+function attach(){
+  ref = doc(db,'rooms',code);
+  unsub = onSnapshot(ref, s => {
+    room = s.exists() ? s.data() : null;
+    if (!room){ if(role){ toast('Room closed'); leave(); } return; }
+    if (room.stage==='ticket' && room.ci && room.ci.c && room.ci.g) upd({stage:'active'});
+    render();
+  });
+}
+function leave(){ if(unsub) unsub(); ref=null; room=null; role=null; code=null; sessionStorage.clear(); view='home'; render(); }
+
+// ---- keypad ----
+function keypad(title, sub, done){
+  let v='';
+  app.innerHTML = `<div class="card"><h1>${title}</h1><p>${sub}</p><div class="dots">${'<i></i>'.repeat(4)}</div>
+  <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="k" data-n="${n}">${n}</button>`).join('')}<span></span><button class="k" data-n="0">0</button><button class="k x" data-n="x" aria-label="Delete">⌫</button></div>
+  <button class="link" id="bk">Back</button></div>`;
+  $('#bk').onclick=()=>{view='home';render()};
+  app.querySelectorAll('.k').forEach(b=>b.onclick=()=>{
+    const n=b.dataset.n; if(n==='x') v=v.slice(0,-1); else if(v.length<4) v+=n;
+    app.querySelectorAll('.dots i').forEach((d,i)=>d.classList.toggle('f',i<v.length));
+    if(v.length===4){ const c=v; v=''; setTimeout(()=>done(c),120); }
+  });
+}
+
+async function create(c){
+  const s = await getDoc(doc(db,'rooms',c));
+  if (s.exists()) { toast('That room ID is taken. Try another.'); return view='create', render(); }
+  await setDoc(doc(db,'rooms',c),{stage:'date',created:Date.now(),joined:false});
+  role='c'; code=c; sessionStorage.setItem('role',role); sessionStorage.setItem('code',code); attach();
+}
+async function join(c){
+  const r=doc(db,'rooms',c), s=await getDoc(r);
+  if(!s.exists()) { toast('No room with that ID.'); return view='join', render(); }
+  if(s.data().joined) { toast('This room already has two people.'); return view='join', render(); }
+  await updateDoc(r,{joined:true});
+  role='g'; code=c; sessionStorage.setItem('role',role); sessionStorage.setItem('code',code); attach();
+}
+
+// ---- ticket ----
+function qr(seed){
+  let h=0; for(const ch of seed) h=(h*31+ch.charCodeAt(0))>>>0;
+  let out='',n=11,u=100/n;
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+    const fin=(x<3&&y<3)||(x>n-4&&y<3)||(x<3&&y>n-4);
+    h=(h*1664525+1013904223)>>>0;
+    if(fin||(h>>>16)%2) out+=`<rect x="${x*u}" y="${y*u}" width="${u}" height="${u}" fill="#3b1420"/>`;
+  }
+  return `<svg viewBox="0 0 100 100">${out}</svg>`;
+}
+const orn=()=>'<svg class="orn" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.9c0 5.4-7.5 10-7.5 10z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>';
+function ticket(r){
+  const c = r==='c'?room.tc:room.tg;
+  return `<div class="tk"><div class="m"><div class="t"><b>Date ticket</b>${r==='c'?'Admit host':'Admit guest'}</div><div class="vip">VIP <span style="font-weight:600">EXPERIENCE</span></div>
+  <div class="d">${fmtDate(room.date)}<br>${fmtTime(room.t.c)}<br>${ACTS[room.act][0]} date</div></div>
+  <div class="s">${qr(c+room.date)}<div class="c">${c}</div><small>TICKET CODE</small></div></div>`;
+}
+
+// ---- render ----
+function render(){
+  if(!role){
+    if(view==='create') return keypad('Pick a room ID','Choose 4 digits and share them only with your crush.',create);
+    if(view==='join') return keypad('Enter room ID','Your 4-digit code opens the invite.',join);
+    app.innerHTML=`<div class="card">${orn()}<h1>Someone has a question for you</h1><p>Create a room to invite your crush, or enter the ID you were given.</p>
+    <button class="btn" id="a">Create a room</button><button class="btn alt" id="b">I have a room ID</button></div>`;
+    $('#a').onclick=()=>{view='create';render()}; $('#b').onclick=()=>{view='join';render()}; return;
+  }
+  if(!room){ app.innerHTML='<div class="card"><p>Connecting…</p></div>'; return; }
+  const me=role, st=room.stage, c=(h,x='')=>app.innerHTML=`<div class="card">${h}${x}</div>`;
+  const wire=(id,fn)=>{const e=$('#'+id); if(e) e.onclick=fn};
+  const closeBtn=`<button class="link" id="cl">Close room</button>`, wireClose=()=>wire('cl',()=>deleteDoc(ref));
+
+  if(st==='date'){
+    if(me==='c'){ c(`<h1>Pick the date</h1><p>Room <b>${code}</b>. Choose the day you want to ask about.</p><input type="date" id="dt" min="${new Date().toISOString().slice(0,10)}"><button class="btn" id="go">Send invite</button>`,closeBtn);
+      wire('go',()=>{const v=$('#dt').value; if(!v) return toast('Pick a date first.'); upd({date:v,stage:'invite'})}); wireClose(); }
+    else c(`${orn()}<h1>Almost ready</h1><p>The invite is being written. This page updates by itself.</p>`);
+    return;
+  }
+  if(st==='invite'){
+    if(me==='g'){ c(`${orn()}<h1>Would you like to go on a date on ${fmtDate(room.date)}?</h1><p>No pressure, just a question.</p><button class="btn" id="y">Yes, I would</button><button class="btn alt" id="n">Not this time</button>`);
+      wire('y',()=>upd({stage:'time',t:{}})); wire('n',()=>upd({stage:'done',outcome:'no',why:'declined'})); }
+    else c(`${orn()}<h1>Invite sent</h1><p>Share room ID <b>${code}</b> with your crush. Waiting for their answer for ${fmtDate(room.date)}.</p>`,closeBtn), wireClose();
+    return;
+  }
+  if(st==='time'){
+    const t=room.t||{}, a=t.c, b=t.g, both=a&&b, same=both&&a===b, bad=both&&!same, mine=t[me], theirs=t[other(me)];
+    c(`<h1>Pick a time</h1><p>${fmtDate(room.date)}. Propose a time, or match theirs.</p>
+    <div class="lights"><i class="g ${same?'on':''}"></i><i class="y ${!both?'on':''}"></i><i class="r ${bad?'on':''}"></i></div>
+    <p><b>${same?'Time matched':bad?'Times differ, adjust one':'Waiting for both times'}</b></p>
+    <input type="time" id="tm" value="${mine||''}"><button class="btn alt" id="sv">Propose this time</button>
+    ${theirs&&!same?`<p style="margin-top:14px">They proposed <b>${fmtTime(theirs)}</b></p><button class="btn alt" id="mt">Match their time</button>`:''}
+    <button class="btn" id="nx" ${same?'':'disabled'}>Continue</button>`);
+    wire('sv',()=>{const v=$('#tm').value; if(!v) return toast('Choose a time.'); upd({['t.'+me]:v})});
+    wire('mt',()=>upd({['t.'+me]:theirs})); wire('nx',()=>upd({stage:'activity'}));
+    return;
+  }
+  if(st==='activity'){
+    const sel=room.act||'';
+    c(`<h1>What kind of date?</h1><p>${me==='g'?'Pick your favourite.':'They are choosing. You can see it live.'}</p>
+    <div class="grid">${Object.entries(ACTS).map(([k,[l,t]])=>`<button class="act ${sel===k?'sel':''}" data-k="${k}" ${me==='g'?'':'disabled'}><b>${l}</b><small>${t}</small></button>`).join('')}</div>
+    <button class="btn" id="cf" ${sel&&me==='g'?'':'disabled'}>Confirm and get tickets</button>`);
+    app.querySelectorAll('.act').forEach(b=>b.onclick=()=>upd({act:b.dataset.k}));
+    wire('cf',()=>{const r=()=>String(1000+Math.floor(Math.random()*9000)); let a=r(),b=r(); if(a===b) b=String(+b%9000+1000+1); upd({stage:'ticket',tc:a,tg:b,ci:{c:false,g:false}})});
+    return;
+  }
+  if(st==='ticket'||st==='active'){
+    const active=st==='active', done=room.ci&&room.ci[me];
+    c(`<h1>${active?'The date is on':'Your tickets are ready'}</h1><div class="pill st"><span class="dot" style="background:${active?'var(--ok)':'var(--wait)'}"></span>${active?'Status: Active':'Status: Waiting for check-in'}</div>
+    ${ticket(me)}
+    ${active?`<p>Have a lovely time.</p>${me==='g'?`<button class="btn" id="m">It was a perfect date</button><button class="btn alt" id="nm">Not a match</button>`:'<p>Your date will tell you how it went.</p>'}<button class="link" id="cx">Cancel date</button>`
+    :`<p>${done?'You are checked in. Waiting for your date.':'At the date, ask for your date’s ticket code and enter it here.'}</p>
+    ${done?'':`<input type="text" inputmode="numeric" maxlength="4" id="cc" class="fld" placeholder="Their 4-digit code"><button class="btn" id="ck">Check in</button>`}<button class="link" id="cx">Cancel date</button>`}`);
+    wire('ck',()=>{const v=$('#cc').value.trim(), want=me==='c'?room.tg:room.tc; v===want?upd({['ci.'+me]:true}):toast('That code doesn’t match. Check the ticket.')});
+    wire('m',()=>upd({stage:'done',outcome:'match'})); wire('nm',()=>upd({stage:'done',outcome:'no',why:'ended'})); wire('cx',()=>upd({stage:'done',outcome:'no',why:'cancelled'}));
+    return;
+  }
+  if(st==='done'){
+    const m=room.outcome==='match', cx=room.why==='cancelled';
+    c(`${orn()}<div class="pill st"><span class="dot" style="background:${m?'var(--ok)':'var(--bad)'}"></span>Date status: ${m?'Completed':cx?'Cancelled':room.why==='declined'?'Declined':'Ended'}</div>
+    <h1>${m?'Perfect Match (Accepted)':'Try Next Time'}</h1><p>${m?'You both wanted this one. Go enjoy it.':'Not this time, and that is okay. Be kind to yourself.'}</p>
+    <button class="btn" id="cl2">Close room and delete everything</button>`);
+    wire('cl2',()=>deleteDoc(ref));
+  }
+}
+render();
+if(ready && role && code) attach();
+</script>
+</body>
+</html>
